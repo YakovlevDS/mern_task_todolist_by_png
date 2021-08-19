@@ -5,7 +5,7 @@ import '../App/style.css'
 
 export const List = ({ list, onChangeBox }) => (
   <ul className="task-list">
-    {list.map((item) => (
+    {list.map(item => (
       <li
         key={item.id}
         style={{ textDecoration: item.done ? "line-through" : null }}

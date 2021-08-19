@@ -3,9 +3,9 @@ import { Checkbox } from "../Checkbox/Checkbox";
 import { Button } from "../Button/Button";
 import '../App/style.css'
 
-export const List = ({ list, onChangeBox }) => (
+export const List = ({list, onChangeBox, handleDel}) => (
   <ul className="task-list">
-    {list.map(item => (
+    {list.map((item) => (
       <li
         key={item.id}
         style={{ textDecoration: item.done ? "line-through" : null }}
@@ -14,7 +14,7 @@ export const List = ({ list, onChangeBox }) => (
           onClick={() => onChangeBox(item)}
           defaultChecked={item.done}
         />{" "}
-        {item.name}
+        {item.text}
       </li>
     ))}
   </ul>

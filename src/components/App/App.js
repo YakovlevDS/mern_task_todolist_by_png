@@ -12,9 +12,9 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      tasks: [
-      { id: 1, text: "Wake up", done: true }
-      ]
+      tasks: [],
+      todoText: "",
+      todoDone:false
     };
   }
 
@@ -52,9 +52,20 @@ export default class App extends Component {
 
   onSubmitTodo = () => {
     this.setState(({ tasks, todoText }) => ({
-      tasks: [...tasks, { id: tasks.length + 1, name: todoText, done: false }],
-      todoText: "",
+      tasks: [...tasks, { id: tasks.length + 1, text: todoText, done: false }],
+     
     }));
+
+   
+
+    axios
+      .post("http://localhost:5000/tasks/add", {
+        text: this.state.todoText,
+        done: this.state.todoDone,
+      })
+      .then((res) => console.log(res.data))
+      .then(this.setState({ todoText: "" }));
+    
   };
 
   onChangeBox = (item) => {
@@ -75,27 +86,25 @@ export default class App extends Component {
     const { tasks, todoText } = this.state;
 
     return (
-      
-        <div className="wrap">
-          <div className="logo">
-            <img src={avatar} alt="avatar" />
-          </div>
-          <div className="wrap-task-list">
-            <h1>My Tasks</h1>
-            <List
-              list={tasks}
-              onChangeBox={this.onChangeBox}
-              handleDel={this.handleDel}
-            />
-            <form id="form">
-              <div className="btn-grp">
-                <Input value={todoText} onChange={this.onChangeInput} />
-                <Button onClick={this.onSubmitTodo}>Add task</Button>
-              </div>
-            </form>
-          </div>
+      <div className="wrap">
+        <div className="logo">
+          <img src={avatar} alt="avatar" />
         </div>
-      
+        <div className="wrap-task-list">
+          <h1>My Tasks</h1>
+          <List
+            list={tasks}
+            onChangeBox={this.onChangeBox}
+            handleDel={this.handleDel}
+          />
+          <form id="form">
+            <div className="btn-grp">
+              <Input value={todoText} onChange={this.onChangeInput} />
+              <Button onClick={this.onSubmitTodo}>Add task</Button>
+            </div>
+          </form>
+        </div>
+      </div>
     );
   }
 }
